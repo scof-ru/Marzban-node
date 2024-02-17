@@ -1,14 +1,32 @@
 services:
   marzban-node:
     build: .
-    # image: gozargah/marzban-node:latest
+    #image: gozargah/marzban-node:latest
     restart: always
     network_mode: host
 
     environment:
-      SSL_CERT_FILE: "./cert/ssl_cert.pem"
-      SSL_KEY_FILE: "./cert/ssl_key.pem"
+      SSL_CERT_FILE: "/var/lib/marzban-node/ssl_cert.pem"
+      SSL_KEY_FILE: "/var/lib/marzban-node/ssl_key.pem"
       # SSL_CLIENT_CERT_FILE: "/var/lib/marzban-node/ssl_client_cert.pem"
-
     volumes:
-      - ./cert:/var/lib/marzban-node
+      - ./certs:/var/lib/marzban-node
+
+
+  proxy:
+    image: nginx
+    volumes:
+      - ./certs:/var/lib/marzban-node
+      - ./game:/var/www/html
+
+
+      - type: bind
+        source: ./proxy/nginx.conf
+        target: /etc/nginx/conf.d/default.conf
+        read_only: true
+
+      
+    network_mode: host
+    depends_on: 
+      - marzban-node
+
