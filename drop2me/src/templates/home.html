@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block main %}
+
+<div class="container">
+
+    <h2 class="mt-4">Public available files:</h2>
+
+    <table class="table" id="filetable">
+      <thead>
+        <tr>
+          <th scope="col">Filename</th>
+          <th scope="col">File size</th>
+          <th scope="col">User</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ filecontent }}
+      </tbody>
+    </table>
+</div>
+
+{% endblock %}

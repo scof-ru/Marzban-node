@@ -14,6 +14,18 @@ services:
     volumes:
       - ./certs:/var/lib/marzban-node
 
+  drop2_me:
+    build:
+      context: drop2me
+    #image: gozargah/marzban-node:latest
+    restart: always
+    network_mode: host
+
+    environment:
+      WB_DOMAIN: "ams-2.drop2.me"
+      # SSL_CLIENT_CERT_FILE: "/var/lib/marzban-node/ssl_client_cert.pem"
+    volumes:
+      - ./files:/var/www/filestorage
 
   proxy:
     image: nginx
