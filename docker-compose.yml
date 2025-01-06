@@ -30,7 +30,7 @@ services:
   proxy:
     image: nginx
     volumes:
-      - ./certs:/var/lib/marzban-node
+      - ./nginx_certs:/var/lib/marzban-node
       - ./game:/var/www/html
 
 
