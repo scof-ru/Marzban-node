@@ -3,8 +3,16 @@ services:
     build: .
     #image: gozargah/marzban-node:latest
     restart: always
-    network_mode: host
-
+      #network_mode: host
+    networks:
+      - marznet
+    ports:
+      - "0.0.0.0:27050:27050"
+      - "27443:443"
+      - "0.0.0.0:27051:27051"
+    expose:
+      - "27050"
+      - "27051"
     environment:
       SERVICE_PORT: 27050
       XRAY_API_PORT: 27051
@@ -19,8 +27,9 @@ services:
       context: drop2me
     #image: gozargah/marzban-node:latest
     restart: always
-    network_mode: host
-
+    #network_mode: host
+    networks:
+      - marznet
     environment:
       WB_DOMAIN: "ams-2.drop2.me"
       # SSL_CLIENT_CERT_FILE: "/var/lib/marzban-node/ssl_client_cert.pem"
@@ -40,7 +49,18 @@ services:
         read_only: true
 
       
-    network_mode: host
+    networks:
+      - marznet
+    ports:
+      - "0.0.0.0:443:443"
+    expose:
+      - "443"
     depends_on: 
       - marzban-node
 
+networks:
+  marznet:
+    #external: true
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
